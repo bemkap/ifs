@@ -6,5 +6,60 @@ NB. RECT = x y x_opuesto y_opuesto angulo
 rtop=: 3 : 0
  p=. (0 1,2 1,2 3,:0 3){y
  m=. (+/%2:) 0 2{p
- m +"1 (4{y) rotate p -"1 m
+ ,m +"1 (4{y) rotate p -"1 m
 )
+
+IFS=: 0 : 0
+ pc win closeok;pn "ifs";
+ cc cb combobox;
+ minwh 300 300;cc ifs isigraph;
+)
+ 
+win_run=: 3 : 0
+ P=: 0
+ T=: 0 5$0
+ wd IFS
+ wd'pshow'
+)
+
+win_ifs_paint=: 3 : 0
+ glrgb 0 0 0
+ glpen 2
+ glrect 0 0 300 300
+ glrect 50 50 200 200
+ select. P
+ case. 1 do. glrect xy,cu-xy
+ case. 2 do. T=: (({:,~(cu-xy),@:(+"1)_2]\}:)(".cb){T) (".cb)} T
+ end.
+ (glpolygon@rtop)"1 T
+ glrgb 255 0 0
+ glpen 2
+ if. #T do. glpolygon@rtop (".cb){T end.
+)
+
+win_ifs_mbldown=: 3 : 0 
+ P=: >:#.6 7{".sysdata
+ xy=: cu
+ glpaint''
+)
+
+win_ifs_mwheel=: 3 : 0
+ i=. <4,~".cb
+ d=. 1r90p1**_1{".sysdata
+ T=: (d+i{T) i} T
+ glpaint''
+)
+
+win_ifs_mblup=: 3 : 0
+ if. 1=P do. T=: T,xy,cu,0 end.
+ P=: 0
+ wd'set cb items ',":i.#T
+ glpaint''
+)
+
+win_ifs_mmove=: 3 : 0
+ cu=: 2{.".sysdata
+ glpaint''
+)
+
+win_run'' 
