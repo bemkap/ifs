@@ -1,8 +1,8 @@
 require'gl2'
 coinsert'jgl2'
 
-NB. RECT = x y x_opuesto y_opuesto angulo
-
+NB. RECT = x y x_opuesto y_opuesto angul
+NB. B=: C mp~ %. A
 rtop=: 3 : 0
  p=. (0 1,2 1,2 3,:0 3){y
  m=. (+/%2:) 0 2{p
@@ -28,9 +28,21 @@ win_ifs_paint=: 3 : 0
  glrect 0 0 300 300
  glrect 50 50 200 200
  select. P
- case. 1 do. glrect xy,cu-xy
- case. 2 do. T=: (({:,~(cu-xy),@:(+"1)_2]\}:)(".cb){T) (".cb)} T
+ case. 1 do.
+  glrect xy,cu-xy
+ case. 2 do. 
+  i =. ".cb
+  dv=. cu-xy
+  T =: (({:,~dv,@:(+"1)_2]\}:) i{T) i} T
+  xy=: cu
+ case. 3 do.
+  i =. <0 1;~".cb
+  dv=. cu-xy
+  T =: T i}~ dv+i{T
+  xy=: cu
  end.
+ glrgb 170 170 170
+ glpen 2
  (glpolygon@rtop)"1 T
  glrgb 255 0 0
  glpen 2
